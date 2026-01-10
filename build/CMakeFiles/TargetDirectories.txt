@@ -1,4 +1,0 @@
-/home/vulpes/robota/bitehack/esp32_source_code/build/CMakeFiles/build.dir
-/home/vulpes/robota/bitehack/esp32_source_code/build/CMakeFiles/upload.dir
-/home/vulpes/robota/bitehack/esp32_source_code/build/CMakeFiles/edit_cache.dir
-/home/vulpes/robota/bitehack/esp32_source_code/build/CMakeFiles/rebuild_cache.dir
