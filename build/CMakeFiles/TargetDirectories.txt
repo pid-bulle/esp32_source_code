@@ -1,4 +1,0 @@
-C:/Users/fiskra/studia/pid-bulle/esp32_source_code/build/CMakeFiles/build.dir
-C:/Users/fiskra/studia/pid-bulle/esp32_source_code/build/CMakeFiles/upload.dir
-C:/Users/fiskra/studia/pid-bulle/esp32_source_code/build/CMakeFiles/edit_cache.dir
-C:/Users/fiskra/studia/pid-bulle/esp32_source_code/build/CMakeFiles/rebuild_cache.dir
