@@ -4,6 +4,8 @@ project(esp32_hack)
 set(FQBN esp32:esp32:esp32)
 set(PORT /dev/ttyUSB0)
 
+include_directories(${CMAKE_SOURCE_DIR}/src/speaker)
+
 add_custom_target(build
   COMMAND arduino-cli compile
           --fqbn ${FQBN}
