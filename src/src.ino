@@ -1,21 +1,83 @@
+// LED blink on GPIO15 (non-blocking)
 const int LED_PIN = 15; // GPIO 15
 bool ledState = LOW;
 unsigned long previousMillis = 0;
 const unsigned long interval = 500; // toggle every 500 ms -> 1 Hz blink
 
+// Grove speaker on a PWM-capable pin (change as needed)
+const int SPEAKER_PIN = 26; // wire Grove speaker signal to this pin
+const int LEDC_CHANNEL = 0;
+
+// Simple note frequency definitions (Hz)
+#define NOTE_C4 262
+#define NOTE_D4 294
+#define NOTE_E4 330
+#define NOTE_F4 349
+#define NOTE_G4 392
+#define NOTE_A4 440
+#define NOTE_B4 494
+#define NOTE_C5 523
+
+// Example melody: "Twinkle Twinkle Little Star"
+int melody[] = {
+  NOTE_C4, NOTE_C4, NOTE_G4, NOTE_G4, NOTE_A4, NOTE_A4, NOTE_G4,
+  NOTE_F4, NOTE_F4, NOTE_E4, NOTE_E4, NOTE_D4, NOTE_D4, NOTE_C4
+};
+
+int noteDurations[] = {
+  4, 4, 4, 4, 4, 4, 2,
+  4, 4, 4, 4, 4, 4, 2
+};
+
+unsigned long lastMelodyMillis = 0;
+const unsigned long melodyInterval = 10000; // play melody every 10 seconds
+
 void setup() {
   Serial.begin(115200);
-  Serial.println("ESP32 ready — blinking on GPIO15");
+  Serial.println("ESP32 ready — LED on GPIO15, speaker on GPIO26");
 
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, ledState);
+
+  // Setup LEDC (ESP32 PWM) for tone generation
+  ledcSetup(LEDC_CHANNEL, 2000, 8); // channel, initial freq, resolution
+  ledcAttachPin(SPEAKER_PIN, LEDC_CHANNEL);
+}
+
+void playMelody() {
+  const int baseDuration = 500; // quarter note = 500 ms (adjust tempo)
+  int notes = sizeof(melody) / sizeof(melody[0]);
+
+  for (int i = 0; i < notes; i++) {
+    int note = melody[i];
+    int durationFactor = noteDurations[i];
+    int noteLength = baseDuration / durationFactor;
+
+    if (note == 0) {
+      delay(noteLength);
+    } else {
+      ledcWriteTone(LEDC_CHANNEL, note);
+      delay(noteLength);
+      ledcWriteTone(LEDC_CHANNEL, 0); // stop tone
+    }
+
+    delay(50); // short pause between notes
+  }
 }
 
 void loop() {
   unsigned long currentMillis = millis();
+
+  // non-blocking LED blink
   if (currentMillis - previousMillis >= interval) {
     previousMillis = currentMillis;
     ledState = !ledState;
     digitalWrite(LED_PIN, ledState);
+  }
+
+  // play melody periodically (this call blocks while melody plays)
+  if (currentMillis - lastMelodyMillis >= melodyInterval) {
+    lastMelodyMillis = currentMillis;
+    playMelody();
   }
 }
