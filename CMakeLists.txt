@@ -10,6 +10,8 @@ else()
   set(PORT /dev/ttyUSB0)
 endif()
 
+include_directories(${CMAKE_SOURCE_DIR}/src/speaker)
+
 add_custom_target(build
   COMMAND arduino-cli compile
           --fqbn ${FQBN}

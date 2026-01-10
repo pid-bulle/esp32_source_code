@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+#include <Arduino.h>
+#include "speaker.h"
+=======
 #include <WiFi.h>
 #include "WebServerController.h"
 
@@ -13,36 +17,18 @@ const int LED_PIN = 15; // GPIO 15
 bool ledState = LOW;
 unsigned long previousMillis = 0;
 const unsigned long interval = 500; // toggle every 500 ms -> 1 Hz blink
+>>>>>>> 65ac1bb2c5983b09b7e3711f2f0c5c2ea3fd24f6
 
-// Grove speaker on a PWM-capable pin (change as needed)
-const int SPEAKER_PIN = 26; // wire Grove speaker signal to this pin
-const int LEDC_CHANNEL = 0;
-
-// Simple note frequency definitions (Hz)
-#define NOTE_C4 262
-#define NOTE_D4 294
-#define NOTE_E4 330
-#define NOTE_F4 349
-#define NOTE_G4 392
-#define NOTE_A4 440
-#define NOTE_B4 494
-#define NOTE_C5 523
-
-// Example melody: "Twinkle Twinkle Little Star"
-int melody[] = {
-  NOTE_C4, NOTE_C4, NOTE_G4, NOTE_G4, NOTE_A4, NOTE_A4, NOTE_G4,
-  NOTE_F4, NOTE_F4, NOTE_E4, NOTE_E4, NOTE_D4, NOTE_D4, NOTE_C4
-};
-
-int noteDurations[] = {
-  4, 4, 4, 4, 4, 4, 2,
-  4, 4, 4, 4, 4, 4, 2
-};
-
-unsigned long lastMelodyMillis = 0;
-const unsigned long melodyInterval = 10000; // play melody every 10 seconds
+Speaker speaker(4);  // speaker on GPIO 4
 
 void setup() {
+<<<<<<< HEAD
+}
+
+void loop() {
+  // nothing here
+}
+=======
   Serial.begin(115200);
   Serial.println("ESP32 ready — LED on GPIO15, speaker on GPIO26");
 
@@ -114,3 +100,4 @@ void loop() {
     playMelody();
   }
 }
+>>>>>>> 65ac1bb2c5983b09b7e3711f2f0c5c2ea3fd24f6
