@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/vulpes/robota/bitehack/esp32_source_code/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
