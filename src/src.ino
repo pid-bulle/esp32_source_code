@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 #include <Arduino.h>
 #include "speaker.h"
-=======
 #include <WiFi.h>
 #include "WebServerController.h"
 
@@ -17,18 +15,10 @@ const int LED_PIN = 15; // GPIO 15
 bool ledState = LOW;
 unsigned long previousMillis = 0;
 const unsigned long interval = 500; // toggle every 500 ms -> 1 Hz blink
->>>>>>> 65ac1bb2c5983b09b7e3711f2f0c5c2ea3fd24f6
 
 Speaker speaker(4);  // speaker on GPIO 4
 
 void setup() {
-<<<<<<< HEAD
-}
-
-void loop() {
-  // nothing here
-}
-=======
   Serial.begin(115200);
   Serial.println("ESP32 ready — LED on GPIO15, speaker on GPIO26");
 
@@ -100,4 +90,3 @@ void loop() {
     playMelody();
   }
 }
->>>>>>> 65ac1bb2c5983b09b7e3711f2f0c5c2ea3fd24f6
