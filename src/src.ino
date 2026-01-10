@@ -18,8 +18,13 @@ const unsigned long interval = 500; // toggle every 500 ms -> 1 Hz blink
 Speaker speaker(4);  // speaker on GPIO 4
 
 void setup() {
+  // Initialize speaker
+  speaker.begin();
+  speaker.soundGo();
+  delay(1000);
+
   Serial.begin(115200);
-  Serial.println("ESP32 ready — LED on GPIO15, speaker on GPIO26");
+  Serial.println("ESP32 ready — LED on GPIO15, speaker on GPIO4");
 
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, ledState);
@@ -46,9 +51,6 @@ void setup() {
   webServer.begin();
 
 
-  // Initialize speaker
-  speaker.begin();
-  speaker.soundHalt();
 
 }
 
