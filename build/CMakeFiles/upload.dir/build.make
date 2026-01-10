@@ -44,19 +44,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/bin/cmake
+CMAKE_COMMAND = "C:/Program Files/CMake/bin/cmake.exe"
 
 # The command to remove a file.
-RM = /usr/bin/cmake -E rm -f
+RM = "C:/Program Files/CMake/bin/cmake.exe" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/vulpes/robota/bitehack/esp32_source_code
+CMAKE_SOURCE_DIR = C:/Users/fiskra/studia/pid-bulle/esp32_source_code
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/vulpes/robota/bitehack/esp32_source_code/build
+CMAKE_BINARY_DIR = C:/Users/fiskra/studia/pid-bulle/esp32_source_code/build
 
 # Utility rule file for upload.
 
@@ -67,7 +67,7 @@ include CMakeFiles/upload.dir/compiler_depend.make
 include CMakeFiles/upload.dir/progress.make
 
 CMakeFiles/upload:
-	arduino-cli upload -p /dev/ttyUSB0 --fqbn esp32:esp32:esp32 /home/vulpes/robota/bitehack/esp32_source_code/src
+	arduino-cli upload -p COM8 --fqbn esp32:esp32:esp32 C:/Users/fiskra/studia/pid-bulle/esp32_source_code/src
 
 CMakeFiles/upload.dir/codegen:
 .PHONY : CMakeFiles/upload.dir/codegen
@@ -85,6 +85,6 @@ CMakeFiles/upload.dir/clean:
 .PHONY : CMakeFiles/upload.dir/clean
 
 CMakeFiles/upload.dir/depend:
-	cd /home/vulpes/robota/bitehack/esp32_source_code/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/vulpes/robota/bitehack/esp32_source_code /home/vulpes/robota/bitehack/esp32_source_code /home/vulpes/robota/bitehack/esp32_source_code/build /home/vulpes/robota/bitehack/esp32_source_code/build /home/vulpes/robota/bitehack/esp32_source_code/build/CMakeFiles/upload.dir/DependInfo.cmake "--color=$(COLOR)" upload
+	$(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" C:/Users/fiskra/studia/pid-bulle/esp32_source_code C:/Users/fiskra/studia/pid-bulle/esp32_source_code C:/Users/fiskra/studia/pid-bulle/esp32_source_code/build C:/Users/fiskra/studia/pid-bulle/esp32_source_code/build C:/Users/fiskra/studia/pid-bulle/esp32_source_code/build/CMakeFiles/upload.dir/DependInfo.cmake "--color=$(COLOR)" upload
 .PHONY : CMakeFiles/upload.dir/depend
 

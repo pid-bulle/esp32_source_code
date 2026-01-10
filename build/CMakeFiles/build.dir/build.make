@@ -44,19 +44,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/bin/cmake
+CMAKE_COMMAND = "C:/Program Files/CMake/bin/cmake.exe"
 
 # The command to remove a file.
-RM = /usr/bin/cmake -E rm -f
+RM = "C:/Program Files/CMake/bin/cmake.exe" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/vulpes/robota/bitehack/esp32_source_code
+CMAKE_SOURCE_DIR = C:/Users/fiskra/studia/pid-bulle/esp32_source_code
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/vulpes/robota/bitehack/esp32_source_code/build
+CMAKE_BINARY_DIR = C:/Users/fiskra/studia/pid-bulle/esp32_source_code/build
 
 # Utility rule file for build.
 
@@ -67,7 +67,7 @@ include CMakeFiles/build.dir/compiler_depend.make
 include CMakeFiles/build.dir/progress.make
 
 CMakeFiles/build:
-	arduino-cli compile --fqbn esp32:esp32:esp32 /home/vulpes/robota/bitehack/esp32_source_code/src
+	arduino-cli compile --fqbn esp32:esp32:esp32 C:/Users/fiskra/studia/pid-bulle/esp32_source_code/src
 
 CMakeFiles/build.dir/codegen:
 .PHONY : CMakeFiles/build.dir/codegen
@@ -85,6 +85,6 @@ CMakeFiles/build.dir/clean:
 .PHONY : CMakeFiles/build.dir/clean
 
 CMakeFiles/build.dir/depend:
-	cd /home/vulpes/robota/bitehack/esp32_source_code/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/vulpes/robota/bitehack/esp32_source_code /home/vulpes/robota/bitehack/esp32_source_code /home/vulpes/robota/bitehack/esp32_source_code/build /home/vulpes/robota/bitehack/esp32_source_code/build /home/vulpes/robota/bitehack/esp32_source_code/build/CMakeFiles/build.dir/DependInfo.cmake "--color=$(COLOR)" build
+	$(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" C:/Users/fiskra/studia/pid-bulle/esp32_source_code C:/Users/fiskra/studia/pid-bulle/esp32_source_code C:/Users/fiskra/studia/pid-bulle/esp32_source_code/build C:/Users/fiskra/studia/pid-bulle/esp32_source_code/build C:/Users/fiskra/studia/pid-bulle/esp32_source_code/build/CMakeFiles/build.dir/DependInfo.cmake "--color=$(COLOR)" build
 .PHONY : CMakeFiles/build.dir/depend
 

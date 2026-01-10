@@ -1,3 +1,13 @@
+#include <WiFi.h>
+#include "WebServerController.h"
+
+// WiFi credentials
+const char* ssid = "HP_OMEN";     // Replace with your WiFi SSID
+const char* password = "2a24%M95"; // Replace with your WiFi password
+
+// Web server controller
+WebServerController webServer;
+
 // LED blink on GPIO15 (non-blocking)
 const int LED_PIN = 15; // GPIO 15
 bool ledState = LOW;
@@ -40,8 +50,28 @@ void setup() {
   digitalWrite(LED_PIN, ledState);
 
   // Setup LEDC (ESP32 PWM) for tone generation
-  ledcSetup(LEDC_CHANNEL, 2000, 8); // channel, initial freq, resolution
-  ledcAttachPin(SPEAKER_PIN, LEDC_CHANNEL);
+  ledcAttach(SPEAKER_PIN, 2000, 8); // pin, initial freq, resolution
+
+  // Connect to WiFi
+  Serial.println();
+  Serial.print("Connecting to WiFi: ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println();
+  Serial.println("WiFi connected!");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  // Setup HTTP server
+  webServer.setLedStatePtr(&ledState, LED_PIN);
+  webServer.setupRoutes();
+  webServer.begin();
 }
 
 void playMelody() {
@@ -56,9 +86,9 @@ void playMelody() {
     if (note == 0) {
       delay(noteLength);
     } else {
-      ledcWriteTone(LEDC_CHANNEL, note);
+      ledcWriteTone(SPEAKER_PIN, note);
       delay(noteLength);
-      ledcWriteTone(LEDC_CHANNEL, 0); // stop tone
+      ledcWriteTone(SPEAKER_PIN, 0); // stop tone
     }
 
     delay(50); // short pause between notes
@@ -66,6 +96,9 @@ void playMelody() {
 }
 
 void loop() {
+  // Handle HTTP server requests
+  webServer.handleClient();
+
   unsigned long currentMillis = millis();
 
   // non-blocking LED blink
