@@ -3,8 +3,8 @@
 #include "speaker.h"
 
 // WiFi credentials
-const char* ssid = "HP_OMEN";     // Replace with your WiFi SSID
-const char* password = "2a24%M95"; // Replace with your WiFi password
+const char* ssid = "robot7";     // Replace with your WiFi SSID
+const char* password = "okon123564"; // Replace with your WiFi password
 
 // Web server controller
 WebServerController webServer;

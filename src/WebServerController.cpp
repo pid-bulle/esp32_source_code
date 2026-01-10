@@ -23,17 +23,24 @@ void WebServerController::setupRoutes() {
   server.on("/look_players", [this]() { this->onLookPlayers(); });
   server.on("/reset", [this]() { this->onReset(); });
 
-  server.on("/led/", HTTP_GET, [this]() {
-    this->handleLed(server.pathArg(0).toInt());
-  });
-  server.on("/speed/", HTTP_GET, [this]() {
-    this->handleSpeed(server.pathArg(0).toInt());
-  });
-  server.on("/turn/", HTTP_GET, [this]() {
-    this->handleTurn(server.pathArg(0).toInt());
-  });
-  server.on("/sound/", HTTP_GET, [this]() {
-    this->handleSound(server.pathArg(0).toInt());
+  server.onNotFound([this]() {
+    String uri = server.uri();
+
+    if (uri.startsWith("/led/")) {
+      int value = uri.substring(5).toInt();
+      this->handleLed(value);
+    } else if (uri.startsWith("/speed/")) {
+      int value = uri.substring(7).toInt();
+      this->handleSpeed(value);
+    } else if (uri.startsWith("/turn/")) {
+      int value = uri.substring(6).toInt();
+      this->handleTurn(value);
+    } else if (uri.startsWith("/sound/")) {
+      int value = uri.substring(7).toInt();
+      this->handleSound(value);
+    } else {
+      server.send(404, "text/plain", "Not Found");
+    }
   });
 }
 
