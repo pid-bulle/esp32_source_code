@@ -2,6 +2,7 @@
 #define WEB_SERVER_CONTROLLER_H
 
 #include <WebServer.h>
+#include <ESP32Servo.h>
 
 class WebServerController {
 public:
@@ -12,11 +13,16 @@ public:
 
   // Reference to LED state for control
   void setLedStatePtr(bool* ledStatePtr, int ledPin);
+  void setServoConfig(int servoPin, int forwardAngle, int playersAngle);
 
 private:
   WebServer server;
   bool* ledState;
   int LED_PIN;
+  Servo servo;
+  int SERVO_PIN;
+  int lookingForwardAngle;
+  int lookingAtPlayersAngle;
 
   void onLookForward();
   void onLookPlayers();

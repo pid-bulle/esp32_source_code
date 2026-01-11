@@ -16,6 +16,11 @@ bool ledState = LOW;
 unsigned long previousMillis = 0;
 const unsigned long interval = 500; // toggle every 500 ms -> 1 Hz blink
 
+
+const int SERVO_PIN = 5;
+const int LOOKING_FORWARD_ANGLE = 0;
+const int LOOKING_AT_PLAYERS_ANGLE = 180;
+
 Motors motors(
     18, 21, 19,   // pwmA, Ain1, Ain2
     23, 1, 22,    // pwmB, Bin1, Bin2
@@ -56,6 +61,7 @@ void setup() {
 
   // Setup HTTP server
   webServer.setLedStatePtr(&ledState, LED_PIN);
+  webServer.setServoConfig(SERVO_PIN, LOOKING_FORWARD_ANGLE, LOOKING_AT_PLAYERS_ANGLE);
   webServer.setupRoutes();
   webServer.begin();
 

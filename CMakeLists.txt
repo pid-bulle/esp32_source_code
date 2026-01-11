@@ -15,6 +15,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src/speaker)
 add_custom_target(build
   COMMAND arduino-cli compile
           --fqbn ${FQBN}
+          --libraries ESP32Servo
           ${CMAKE_SOURCE_DIR}/src
 )
 

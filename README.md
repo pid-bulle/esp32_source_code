@@ -13,9 +13,10 @@ arduino-cli config init
 arduino-cli core update-index
 arduino-cli config set network.connection_timeout 600s
 arduino-cli core install esp32:esp32
+
 arduino-cli core list
 
-
+arduino-cli lib install ESP32Servo
 ```
 
 cmds

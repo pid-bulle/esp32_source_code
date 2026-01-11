@@ -1,9 +1,14 @@
 #include "WebServerController.h"
 #include <Arduino.h>
 
-WebServerController::WebServerController() : server(80), ledState(nullptr), LED_PIN(0) {}
+WebServerController::WebServerController() : server(80), ledState(nullptr), LED_PIN(0), SERVO_PIN(5), lookingForwardAngle(0), lookingAtPlayersAngle(180) {}
 
 void WebServerController::begin() {
+  servo.attach(SERVO_PIN);
+  servo.write(lookingForwardAngle);
+  Serial.print("Servo attached to GPIO ");
+  Serial.println(SERVO_PIN);
+
   server.begin();
   Serial.println("HTTP server started");
 }
@@ -15,6 +20,12 @@ void WebServerController::handleClient() {
 void WebServerController::setLedStatePtr(bool* ledStatePtr, int ledPin) {
   ledState = ledStatePtr;
   LED_PIN = ledPin;
+}
+
+void WebServerController::setServoConfig(int servoPin, int forwardAngle, int playersAngle) {
+  SERVO_PIN = servoPin;
+  lookingForwardAngle = forwardAngle;
+  lookingAtPlayersAngle = playersAngle;
 }
 
 void WebServerController::setupRoutes() {
@@ -45,10 +56,12 @@ void WebServerController::setupRoutes() {
 }
 
 void WebServerController::onLookForward() {
+  servo.write(lookingForwardAngle);
   server.send(200, "text/plain", "Look forward command received");
 }
 
 void WebServerController::onLookPlayers() {
+  servo.write(lookingAtPlayersAngle);
   server.send(200, "text/plain", "Look players command received");
 }
 
