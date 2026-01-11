@@ -1,7 +1,7 @@
 #include "WebServerController.h"
 #include <Arduino.h>
 
-WebServerController::WebServerController() : server(80), ledState(nullptr), LED_PIN(0), SERVO_PIN(5), lookingForwardAngle(0), lookingAtPlayersAngle(180), motors(nullptr), speaker(nullptr), currentSpeed(0) {}
+WebServerController::WebServerController() : server(80), ledState(nullptr), LED_PIN(0), SERVO_PIN(5), lookingForwardAngle(0), lookingAtPlayersAngle(180), speaker(nullptr), currentSpeed(0) {}
 
 void WebServerController::begin() {
   servo.attach(SERVO_PIN);
@@ -26,10 +26,6 @@ void WebServerController::setServoConfig(int servoPin, int forwardAngle, int pla
   SERVO_PIN = servoPin;
   lookingForwardAngle = forwardAngle;
   lookingAtPlayersAngle = playersAngle;
-}
-
-void WebServerController::setMotorsPtr(Motors* motorsPtr) {
-  motors = motorsPtr;
 }
 
 void WebServerController::setSpeakerPtr(Speaker* speakerPtr) {
@@ -84,18 +80,13 @@ void WebServerController::handleLed(uint16_t value) {
 }
 
 void WebServerController::handleSpeed(int16_t value) {
-  if (motors != nullptr) {
-    motors->setSpeed(value);
-  }
+  Motors::setSpeed(value);
   String response = "Speed value set to: ";
   response += value;
   server.send(200, "text/plain", response);
 }
 
 void WebServerController::handleTurn(uint16_t value) {
-  // if (motors != nullptr) {
-
-  // }
   String response = "Turn value set to: ";
   response += value;
   server.send(200, "text/plain", response);

@@ -61,7 +61,6 @@ void setup() {
   // Setup HTTP server
   webServer.setLedStatePtr(&ledState, LED_PIN);
   webServer.setServoConfig(SERVO_PIN, LOOKING_FORWARD_ANGLE, LOOKING_AT_PLAYERS_ANGLE);
-  webServer.setMotorsPtr(&motors);
   webServer.setSpeakerPtr(&speaker);
   webServer.setupRoutes();
   webServer.begin();
@@ -71,16 +70,14 @@ void setup() {
       23, 1, 22,    // pwmB, Bin1, Bin2
       2             // STBY
   );
-
-  Motors::begin();
   Motors::setWheelDistance(0.18);
-  Motors::setSpeed(180);
+  Motors::setSpeed(0);
   Motors::setTurnRadius(INFINITY);
   Motors::update();
 
   // Initialize LED ring
   ledRing.begin();
-  ledRing.startCountdown();
+  // ledRing.startCountdown();
 }
 
 void loop() {
