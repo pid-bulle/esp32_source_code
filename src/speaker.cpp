@@ -71,10 +71,8 @@ void Speaker::playMelody(const int *melody, int length, int tempo) {
 
 // 🔴 HALT: loud continuous buzzer
 void Speaker::soundHalt() {
-  ledcAttach(_pin, 1000, _resolution);
-  ledcWrite(_pin, 255);   // maximum volume
-  delay(800);
-  ledcDetach(_pin);
+  playTone(NOTE_D4, 150);
+  playTone(NOTE_C4, 150);
 }
 
 // 🟢 GO: short chime
