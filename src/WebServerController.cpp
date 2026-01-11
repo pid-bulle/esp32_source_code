@@ -1,7 +1,7 @@
 #include "WebServerController.h"
 #include <Arduino.h>
 
-WebServerController::WebServerController() : server(80), ledState(nullptr), LED_PIN(0), SERVO_PIN(5), lookingForwardAngle(0), lookingAtPlayersAngle(180), speaker(nullptr), currentSpeed(0) {}
+WebServerController::WebServerController() : server(80), ledState(nullptr), LED_PIN(0), SERVO_PIN(5), lookingForwardAngle(0), lookingAtPlayersAngle(180), speaker(nullptr), gameFinished(nullptr), currentSpeed(0) {}
 
 void WebServerController::begin() {
   servo.attach(SERVO_PIN);
@@ -32,6 +32,10 @@ void WebServerController::setSpeakerPtr(Speaker* speakerPtr) {
   speaker = speakerPtr;
 }
 
+void WebServerController::setGameFinishedPtr(bool* gameFinishedPtr) {
+  gameFinished = gameFinishedPtr;
+}
+
 void WebServerController::setupRoutes() {
 
   server.on("/look_forward", [this]() { this->onLookForward(); });
@@ -40,7 +44,10 @@ void WebServerController::setupRoutes() {
 
   server.onNotFound([this]() {
     String uri = server.uri();
-
+    if(gameFinished != nullptr && *gameFinished) {
+      server.send(201, "text/plain", "Game finished. No further commands accepted.");
+      return;
+    }
     if (uri.startsWith("/led/")) {
       int value = uri.substring(5).toInt();
       this->handleLed(value);

@@ -24,11 +24,14 @@ const int SERVO_PIN = 5;
 const int LOOKING_FORWARD_ANGLE = 180;
 const int LOOKING_AT_PLAYERS_ANGLE = 0;
 
+const int BUTTON_PIN = 25; // Button on D25
+const int CONTROL_LED_PIN = 33; // LED on D33
 
 Speaker speaker(4);  // speaker on GPIO 4
 
 LedRing ledRing(35);  // WS2812B LED ring on GPIO 35
 
+static bool gameFinished = false;
 void setup() {
   // Initialize speaker
   speaker.begin();
@@ -41,6 +44,11 @@ void setup() {
 
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, ledState);
+
+  // Setup button and control LED
+  pinMode(BUTTON_PIN, INPUT_PULLUP); // Button with internal pull-up
+  pinMode(CONTROL_LED_PIN, OUTPUT);
+  digitalWrite(CONTROL_LED_PIN, LOW);
 
   // Connect to WiFi
   Serial.println();
@@ -62,6 +70,7 @@ void setup() {
   webServer.setLedStatePtr(&ledState, LED_PIN);
   webServer.setServoConfig(SERVO_PIN, LOOKING_FORWARD_ANGLE, LOOKING_AT_PLAYERS_ANGLE);
   webServer.setSpeakerPtr(&speaker);
+  webServer.setGameFinishedPtr(&gameFinished);
   webServer.setupRoutes();
   webServer.begin();
 
@@ -83,6 +92,34 @@ void setup() {
 void loop() {
   // Handle HTTP server requests
   webServer.handleClient();
+
+  // Read button with debouncing
+  static unsigned long lastDebounceTime = 0;
+  static bool buttonState = false;
+  static bool lastReading = HIGH;
+
+  bool reading = digitalRead(BUTTON_PIN);
+
+  if (reading != lastReading) {
+    lastDebounceTime = millis();
+  }
+
+  if ((millis() - lastDebounceTime) > 50) {
+    if (reading != buttonState) {
+      buttonState = reading;
+      bool buttonPressed = (buttonState == HIGH);
+      if(buttonPressed) {
+        speaker.soundWin();
+        gameFinished = true;
+      }
+    }
+  }
+
+  lastReading = reading;
+
+  // Control LED based on button
+  bool buttonPressed = (buttonState == LOW);
+  digitalWrite(CONTROL_LED_PIN, buttonPressed ? HIGH : LOW);
 
   unsigned long currentMillis = millis();
 

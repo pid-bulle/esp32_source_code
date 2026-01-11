@@ -17,6 +17,7 @@ public:
   void setLedStatePtr(bool* ledStatePtr, int ledPin);
   void setServoConfig(int servoPin, int forwardAngle, int playersAngle);
   void setSpeakerPtr(Speaker* speakerPtr);
+  void setGameFinishedPtr(bool* gameFinishedPtr);
 
 private:
   WebServer server;
@@ -27,6 +28,7 @@ private:
   int lookingForwardAngle;
   int lookingAtPlayersAngle;
   Speaker* speaker;
+  bool* gameFinished;
   uint16_t currentSpeed;
 
   void onLookForward();
