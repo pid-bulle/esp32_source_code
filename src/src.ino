@@ -40,7 +40,7 @@ void setup() {
   speaker.detach();
 
   ledRing.begin();
-      LedRing::setBrightness(80);   // global brightness
+      LedRing::setBrightness(30);   // global brightness
   LedRing::animateTrafficLight();
 
   Serial.begin(115200);
