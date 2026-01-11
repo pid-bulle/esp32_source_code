@@ -1,23 +1,33 @@
-#pragma once
+#ifndef LED_RING_H
+#define LED_RING_H
+
 #include <Arduino.h>
-#include <FastLED.h>
+#include <Adafruit_NeoPixel.h>
 
 class LedRing {
 public:
-  LedRing(uint8_t dataPin);
+    LedRing(uint8_t pin, uint16_t ledCount);
 
-  void begin();
+    void begin();
+    void clear();
+    void show();
 
-  // Animations
-  void countdown();        // Red → Yellow → Green (1s each)
-  void showColor(CRGB c);  // solid center + animated ring
+    // Generic color control
+    void setAll(uint8_t r, uint8_t g, uint8_t b);
+    void setAll(uint32_t color);
+    uint32_t color(uint8_t r, uint8_t g, uint8_t b);
+
+    // Traffic light colors
+    void red();
+    void yellow();
+    void green();
+
+    // Traffic light animation
+    void animateTrafficLight();
 
 private:
-  static const uint8_t NUM_LEDS = 7;
-  static const uint8_t CENTER_LED = 0;
-
-  uint8_t _pin;
-  CRGB leds[NUM_LEDS];
-
-  void animateRing(CRGB color, uint16_t durationMs);
+    uint16_t _ledCount;
+    Adafruit_NeoPixel _strip;
 };
+
+#endif // LED_RING_H
