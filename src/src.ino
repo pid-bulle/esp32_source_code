@@ -5,8 +5,10 @@
 #include "led_ring.h"
 
 // WiFi credentials
-const char* ssid = "Lenovo_hotspot";     // Replace with your WiFi SSID
-const char* password = "qqqqqqqq"; // Replace with your WiFi password
+// const char* ssid = "Lenovo_hotspot";     // Replace with your WiFi SSID
+// const char* password = "qqqqqqqq"; // Replace with your WiFi password
+const char* ssid = "robot7";     // Replace with your WiFi SSID
+const char* password = "okon123564"; // Replace with your WiFi password
 
 // Web server controller
 WebServerController webServer;
