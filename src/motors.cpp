@@ -17,13 +17,32 @@ void Motors::begin() {
 
     digitalWrite(_stby, HIGH);  // exit standby
 
-    // Setup PWM on PWM pins
-    ledcAttach(_pwmA, 1000, _pwmResolution); // 1 kHz PWM frequency, 8-bit resolution
-    ledcAttach(_pwmB, 1000, _pwmResolution);
+    // Setup PWM on PWM pins using pinMode for PWM
+    pinMode(_pwmA, OUTPUT);
+    pinMode(_pwmB, OUTPUT);
+
+    // Setup LEDC for PWM
+    bool attachA = ledcAttach(_pwmA, 1000, _pwmResolution);
+    bool attachB = ledcAttach(_pwmB, 1000, _pwmResolution);
+
+    Serial.print("ledcAttach pwmA (GPIO ");
+    Serial.print(_pwmA);
+    Serial.print("): ");
+    Serial.println(attachA ? "OK" : "FAIL");
+
+    Serial.print("ledcAttach pwmB (GPIO ");
+    Serial.print(_pwmB);
+    Serial.print("): ");
+    Serial.println(attachB ? "OK" : "FAIL");
+
+    // Test: set 50% duty cycle directly
+    ledcWrite(_pwmA, 128);
+    ledcWrite(_pwmB, 128);
+    Serial.println("PWM set to 50% on both channels");
 
     // ensure stopped
-    setMotorA(0);
-    setMotorB(0);
+    // setMotorA(0);
+    // setMotorB(0);
 }
 
 void Motors::applyMotor(int16_t pwm, uint8_t pwmPin, uint8_t pin1, uint8_t pin2) {
