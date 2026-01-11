@@ -2,6 +2,7 @@
 #include "WebServerController.h"
 #include "speaker.h"
 #include "motors.h"
+#include "led_ring.h"
 
 // WiFi credentials
 const char* ssid = "Lenovo_hotspot";     // Replace with your WiFi SSID
@@ -11,7 +12,7 @@ const char* password = "qqqqqqqq"; // Replace with your WiFi password
 WebServerController webServer;
 
 // LED blink on GPIO15 (non-blocking)
-const int LED_PIN = 15; // GPIO 15
+const int LED_PIN = 26; // GPIO 15
 bool ledState = LOW;
 unsigned long previousMillis = 0;
 const unsigned long interval = 500; // toggle every 500 ms -> 1 Hz blink
@@ -29,6 +30,8 @@ Motors motors(
 
 
 Speaker speaker(4);  // speaker on GPIO 4
+
+LedRing ledRing(35);  // WS2812B LED ring on GPIO 35
 
 void setup() {
   // Initialize speaker
@@ -70,7 +73,9 @@ void setup() {
   motors.begin();
   motors.setWheelDistance(0.18);
 
-
+  // Initialize LED ring
+  ledRing.begin();
+  ledRing.startCountdown();
 }
 
 void loop() {
