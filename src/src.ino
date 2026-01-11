@@ -24,12 +24,6 @@ const int SERVO_PIN = 5;
 const int LOOKING_FORWARD_ANGLE = 180;
 const int LOOKING_AT_PLAYERS_ANGLE = 0;
 
-Motors motors(
-    18, 21, 19,   // pwmA, Ain1, Ain2
-    23, 1, 22,    // pwmB, Bin1, Bin2
-    2             // STBY
-);
-
 
 Speaker speaker(4);  // speaker on GPIO 4
 
@@ -72,8 +66,17 @@ void setup() {
   webServer.setupRoutes();
   webServer.begin();
 
-  motors.begin();
-  motors.setWheelDistance(0.18);
+  Motors::begin(
+      18, 21, 19,   // pwmA, Ain1, Ain2
+      23, 1, 22,    // pwmB, Bin1, Bin2
+      2             // STBY
+  );
+
+  Motors::begin();
+  Motors::setWheelDistance(0.18);
+  Motors::setSpeed(180);
+  Motors::setTurnRadius(INFINITY);
+  Motors::update();
 
   // Initialize LED ring
   ledRing.begin();
