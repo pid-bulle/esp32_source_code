@@ -35,7 +35,7 @@ private:
   void onLookPlayers();
   void onReset();
   void handleLed(uint16_t value);
-  void handleSpeed(uint16_t value);
+  void handleSpeed(int16_t value);
   void handleTurn(uint16_t value);
   void handleSound(uint16_t value);
 };
