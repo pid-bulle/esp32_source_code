@@ -57,6 +57,7 @@ void WebServerController::setupRoutes() {
 
 void WebServerController::onLookForward() {
   servo.write(lookingForwardAngle);
+  Serial.println("look forward");
   server.send(200, "text/plain", "Look forward command received");
 }
 

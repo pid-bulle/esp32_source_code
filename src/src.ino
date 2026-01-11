@@ -4,8 +4,8 @@
 #include "motors.h"
 
 // WiFi credentials
-const char* ssid = "robot7";     // Replace with your WiFi SSID
-const char* password = "okon123564"; // Replace with your WiFi password
+const char* ssid = "Lenovo_hotspot";     // Replace with your WiFi SSID
+const char* password = "qqqqqqqq"; // Replace with your WiFi password
 
 // Web server controller
 WebServerController webServer;
@@ -83,19 +83,4 @@ void loop() {
     ledState = !ledState;
     digitalWrite(LED_PIN, ledState);
   }
-
-      motors.drive(0.5, INFINITY);
-    delay(2000);
-
-    // Turn right, radius 0.3 m
-    motors.drive(0.3, 0.3);
-    delay(2000);
-
-    // Turn left, radius -0.2 m
-    motors.drive(0.3, -0.2);
-    delay(2000);
-
-    // Stop
-    motors.stop();
-    delay(1000);
 }
