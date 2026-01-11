@@ -9,14 +9,6 @@ Motors::Motors(
     _stby(stby) { }
 
 void Motors::begin() {
-    pinMode(_ain1, OUTPUT);
-    pinMode(_ain2, OUTPUT);
-    pinMode(_bin1, OUTPUT);
-    pinMode(_bin2, OUTPUT);
-    pinMode(_stby, OUTPUT);
-
-    digitalWrite(_stby, HIGH);  // exit standby
-
     // Setup PWM on PWM pins using pinMode for PWM
     pinMode(_pwmA, OUTPUT);
     pinMode(_pwmB, OUTPUT);
@@ -34,6 +26,17 @@ void Motors::begin() {
     Serial.print(_pwmB);
     Serial.print("): ");
     Serial.println(attachB ? "OK" : "FAIL");
+
+
+    pinMode(_ain1, OUTPUT);
+    pinMode(_ain2, OUTPUT);
+    pinMode(_bin1, OUTPUT);
+    pinMode(_bin2, OUTPUT);
+    pinMode(_stby, OUTPUT);
+
+    digitalWrite(_stby, HIGH);  // exit standby
+
+
 
     // Test: set 50% duty cycle directly
     ledcWrite(_pwmA, 128);

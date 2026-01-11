@@ -68,7 +68,16 @@ void setup() {
   motors.begin();
   motors.setWheelDistance(0.18);
 
+  motors.drive(0.5, INFINITY);
+  delay(2000);
 
+  motors.drive(0.5, 0.5);
+  delay(2000);
+
+  motors.drive(0.5, 0.2);
+  delay(2000);
+
+  motors.stop();
 }
 
 void loop() {
