@@ -17,6 +17,7 @@ arduino-cli core install esp32:esp32
 arduino-cli core list
 
 arduino-cli lib install ESP32Servo
+arduino-cli lib install FastLED
 ```
 
 cmds
