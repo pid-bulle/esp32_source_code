@@ -10,24 +10,29 @@ public:
 
     void begin();
     void clear();
-    void show();
+    void apply();   // apply static color + brightness to LEDs
 
-    // Generic color control
-    void setAll(uint8_t r, uint8_t g, uint8_t b);
-    void setAll(uint32_t color);
-    uint32_t color(uint8_t r, uint8_t g, uint8_t b);
+    // ---- Static global LED state ----
+    static void setColor(uint8_t r, uint8_t g, uint8_t b);
+    static void setBrightness(uint8_t brightness);
 
     // Traffic light colors
-    void red();
-    void yellow();
-    void green();
+    static void red();
+    static void yellow();
+    static void green();
 
-    // Traffic light animation
+    // Traffic light animation (blocking)
     void animateTrafficLight();
 
 private:
     uint16_t _ledCount;
     Adafruit_NeoPixel _strip;
+
+    // ---- Static shared state ----
+    static uint8_t _r;
+    static uint8_t _g;
+    static uint8_t _b;
+    static uint8_t _brightness;
 };
 
 #endif // LED_RING_H

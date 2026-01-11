@@ -1,5 +1,11 @@
 #include "led_ring.h"
 
+// ---- Static field definitions ----
+uint8_t LedRing::_r = 0;
+uint8_t LedRing::_g = 0;
+uint8_t LedRing::_b = 0;
+uint8_t LedRing::_brightness = 255;
+
 LedRing::LedRing(uint8_t pin, uint16_t ledCount)
     : _ledCount(ledCount),
       _strip(ledCount, pin, NEO_GRB + NEO_KHZ800)
@@ -8,7 +14,8 @@ LedRing::LedRing(uint8_t pin, uint16_t ledCount)
 
 void LedRing::begin() {
     _strip.begin();
-    _strip.show(); // LEDs off
+    _strip.setBrightness(_brightness);
+    _strip.show();
 }
 
 void LedRing::clear() {
@@ -16,46 +23,51 @@ void LedRing::clear() {
     _strip.show();
 }
 
-void LedRing::show() {
-    _strip.show();
-}
+void LedRing::apply() {
+    _strip.setBrightness(_brightness);
 
-void LedRing::setAll(uint8_t r, uint8_t g, uint8_t b) {
-    setAll(_strip.Color(r, g, b));
-}
-
-void LedRing::setAll(uint32_t color) {
+    uint32_t color = _strip.Color(_r, _g, _b);
     for (uint16_t i = 0; i < _ledCount; i++) {
         _strip.setPixelColor(i, color);
     }
     _strip.show();
 }
 
-uint32_t LedRing::color(uint8_t r, uint8_t g, uint8_t b) {
-    return _strip.Color(r, g, b);
+// ---- Static state setters ----
+void LedRing::setColor(uint8_t r, uint8_t g, uint8_t b) {
+    _r = r;
+    _g = g;
+    _b = b;
 }
 
-// 🚦 Traffic light colors
+void LedRing::setBrightness(uint8_t brightness) {
+    _brightness = brightness;
+}
+
+// ---- Traffic light presets ----
 void LedRing::red() {
-    setAll(255, 0, 0);
+    setColor(255, 0, 0);
 }
 
 void LedRing::yellow() {
-    setAll(255, 50, 0); // warm yellow (better than pure 255,255,0)
+    setColor(255, 150, 0);
 }
 
 void LedRing::green() {
-    setAll(0, 255, 0);
+    setColor(0, 255, 0);
 }
 
-// 🚦 Traffic light animation
+// ---- Animation ----
 void LedRing::animateTrafficLight() {
     red();
+    apply();
     delay(1000);
 
     yellow();
+    apply();
     delay(1000);
 
     green();
+    apply();
     delay(1000);
 }
