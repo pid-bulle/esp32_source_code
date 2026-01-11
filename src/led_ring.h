@@ -10,29 +10,33 @@ public:
 
     void begin();
     void clear();
-    void apply();   // apply static color + brightness to LEDs
 
-    // ---- Static global LED state ----
+    // ---- GLOBAL CONTROL (no object needed) ----
     static void setColor(uint8_t r, uint8_t g, uint8_t b);
     static void setBrightness(uint8_t brightness);
 
-    // Traffic light colors
     static void red();
     static void yellow();
     static void green();
 
-    // Traffic light animation (blocking)
-    void animateTrafficLight();
+    static void applyAll();
+    static void animateTrafficLight();
 
 private:
     uint16_t _ledCount;
     Adafruit_NeoPixel _strip;
 
-    // ---- Static shared state ----
+    void apply(); // apply static state to THIS instance
+
+    // ---- Global shared state ----
     static uint8_t _r;
     static uint8_t _g;
     static uint8_t _b;
     static uint8_t _brightness;
+
+    // ---- Instance registry ----
+    static LedRing* _instances[4];   // supports up to 4 rings
+    static uint8_t _instanceCount;
 };
 
-#endif // LED_RING_H
+#endif

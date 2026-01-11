@@ -84,18 +84,19 @@ void WebServerController::onReset() {
 void WebServerController::handleLed(uint16_t value) {
   switch (value) {
     case 1:
-      LedRing::setColor(0, 255, 0);
+      LedRing::green();
       break;
     case 2:
-      LedRing::setColor(255, 30, 0);
+      LedRing::yellow();
       break;
     case 3:
-      LedRing::setColor(255, 0, 0);
+      LedRing::red();
       break;
     default:
       LedRing::setColor(0, 0, 0);
       break;
   }
+  LedRing::applyAll();
   String response = "LED value set to: ";
   response += value;
   server.send(200, "text/plain", response);

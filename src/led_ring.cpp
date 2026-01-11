@@ -1,10 +1,13 @@
 #include "led_ring.h"
 
-// ---- Static field definitions ----
+// ---- Static state ----
 uint8_t LedRing::_r = 0;
 uint8_t LedRing::_g = 0;
 uint8_t LedRing::_b = 0;
 uint8_t LedRing::_brightness = 255;
+
+LedRing* LedRing::_instances[4] = { nullptr };
+uint8_t LedRing::_instanceCount = 0;
 
 LedRing::LedRing(uint8_t pin, uint16_t ledCount)
     : _ledCount(ledCount),
@@ -16,6 +19,11 @@ void LedRing::begin() {
     _strip.begin();
     _strip.setBrightness(_brightness);
     _strip.show();
+
+    // Register instance
+    if (_instanceCount < 4) {
+        _instances[_instanceCount++] = this;
+    }
 }
 
 void LedRing::clear() {
@@ -23,6 +31,7 @@ void LedRing::clear() {
     _strip.show();
 }
 
+// ---- Instance apply ----
 void LedRing::apply() {
     _strip.setBrightness(_brightness);
 
@@ -33,18 +42,20 @@ void LedRing::apply() {
     _strip.show();
 }
 
-// ---- Static state setters ----
+// ---- Global setters ----
 void LedRing::setColor(uint8_t r, uint8_t g, uint8_t b) {
     _r = r;
     _g = g;
     _b = b;
+    applyAll();
 }
 
 void LedRing::setBrightness(uint8_t brightness) {
     _brightness = brightness;
+    applyAll();
 }
 
-// ---- Traffic light presets ----
+// ---- Global color shortcuts ----
 void LedRing::red() {
     setColor(255, 0, 0);
 }
@@ -57,17 +68,21 @@ void LedRing::green() {
     setColor(0, 255, 0);
 }
 
-// ---- Animation ----
+// ---- Apply to ALL instances ----
+void LedRing::applyAll() {
+    for (uint8_t i = 0; i < _instanceCount; i++) {
+        _instances[i]->apply();
+    }
+}
+
+// ---- Global animation ----
 void LedRing::animateTrafficLight() {
     red();
-    apply();
     delay(1000);
 
     yellow();
-    apply();
     delay(1000);
 
     green();
-    apply();
     delay(1000);
 }

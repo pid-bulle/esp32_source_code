@@ -22,7 +22,7 @@ const unsigned long interval = 500; // toggle every 500 ms -> 1 Hz blink
 
 const int SERVO_PIN = 5;
 const int LOOKING_FORWARD_ANGLE = 180;
-const int LOOKING_AT_PLAYERS_ANGLE = 3;
+const int LOOKING_AT_PLAYERS_ANGLE = -3;
 
 const int BUTTON_PIN = 25; // Button on D25
 const int CONTROL_LED_PIN = 33; // LED on D33
@@ -41,7 +41,7 @@ void setup() {
 
   ledRing.begin();
       LedRing::setBrightness(80);   // global brightness
-  ledRing.animateTrafficLight();
+  LedRing::animateTrafficLight();
 
   Serial.begin(115200);
   Serial.println("ESP32 ready — LED on GPIO15, speaker on GPIO4");
