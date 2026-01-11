@@ -32,5 +32,5 @@ private:
 
     float _wheelDistance = 0.12; // default distance between wheels in meters
 
-    void applyMotor(int16_t pwm, uint8_t pin1, uint8_t pin2);
+    void applyMotor(int16_t pwm, uint8_t pwmPin, uint8_t pin1, uint8_t pin2);
 };

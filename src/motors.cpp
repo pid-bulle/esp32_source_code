@@ -17,12 +17,16 @@ void Motors::begin() {
 
     digitalWrite(_stby, HIGH);  // exit standby
 
+    // Setup PWM on PWM pins
+    ledcAttach(_pwmA, 1000, _pwmResolution); // 1 kHz PWM frequency, 8-bit resolution
+    ledcAttach(_pwmB, 1000, _pwmResolution);
+
     // ensure stopped
     setMotorA(0);
     setMotorB(0);
 }
 
-void Motors::applyMotor(int16_t pwm, uint8_t pin1, uint8_t pin2) {
+void Motors::applyMotor(int16_t pwm, uint8_t pwmPin, uint8_t pin1, uint8_t pin2) {
     if (pwm > 0) {
         digitalWrite(pin1, HIGH);
         digitalWrite(pin2, LOW);
@@ -38,17 +42,16 @@ void Motors::applyMotor(int16_t pwm, uint8_t pin1, uint8_t pin2) {
     // limit to 0–255
     if (pwm > 255) pwm = 255;
 
-    // write PWM using latest LEDC API
-    ledcAttach(pin1, 1000, _pwmResolution); // 1 kHz PWM frequency
-    ledcWrite(pin1, pwm);
+    // write PWM to the actual PWM pin
+    ledcWrite(pwmPin, pwm);
 }
 
 void Motors::setMotorA(int16_t speed) {
-    applyMotor(speed, _ain1, _ain2);
+    applyMotor(speed, _pwmA, _ain1, _ain2);
 }
 
 void Motors::setMotorB(int16_t speed) {
-    applyMotor(speed, _bin1, _bin2);
+    applyMotor(speed, _pwmB, _bin1, _bin2);
 }
 
 void Motors::stop() {
