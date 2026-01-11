@@ -95,18 +95,6 @@ void WebServerController::handleSpeed(int16_t value) {
 void WebServerController::handleTurn(uint16_t value) {
   // if (motors != nullptr) {
 
-  //   int16_t diff = (int16_t)value - 128;  // -128 do +127
-
-  //   // Skaluj diff proporcjonalnie do currentSpeed
-  //   int16_t leftSpeed = currentSpeed + diff;
-  //   int16_t rightSpeed = currentSpeed - diff;
-
-  //   // Ogranicz do zakresu -255 do 255
-  //   leftSpeed = constrain(leftSpeed, -255, 255);
-  //   rightSpeed = constrain(rightSpeed, -255, 255);
-
-  //   motors->setMotorA(leftSpeed);
-  //   motors->setMotorB(rightSpeed);
   // }
   String response = "Turn value set to: ";
   response += value;
