@@ -29,7 +29,7 @@ const int CONTROL_LED_PIN = 33; // LED on D33
 
 Speaker speaker(4);  // speaker on GPIO 4
 
-LedRing ledRing(35);  // WS2812B LED ring on GPIO 35
+LedRing ledRing(16, 7);  // WS2812B LED ring on GPIO 35
 
 static bool gameFinished = false;
 void setup() {
@@ -38,6 +38,9 @@ void setup() {
   speaker.soundGo();
   digitalWrite(4, 0);;
   speaker.detach();
+
+  ledRing.begin();
+  ledRing.animateTrafficLight();
 
   Serial.begin(115200);
   Serial.println("ESP32 ready — LED on GPIO15, speaker on GPIO4");
@@ -85,8 +88,6 @@ void setup() {
   Motors::update();
 
   // Initialize LED ring
-  ledRing.begin();
-  ledRing.countdown();
 }
 
 void loop() {

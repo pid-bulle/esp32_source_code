@@ -1,48 +1,61 @@
 #include "led_ring.h"
 
-LedRing::LedRing(uint8_t dataPin) : _pin(dataPin) {}
+LedRing::LedRing(uint8_t pin, uint16_t ledCount)
+    : _ledCount(ledCount),
+      _strip(ledCount, pin, NEO_GRB + NEO_KHZ800)
+{
+}
 
 void LedRing::begin() {
-  FastLED.addLeds<WS2812B, /*DATA_PIN*/ 0, GRB>(leds, NUM_LEDS);
-  FastLED.setBrightness(180);
-  FastLED.clear();
-  FastLED.show();
+    _strip.begin();
+    _strip.show(); // LEDs off
 }
 
-// Helper: center LED solid, outer LEDs rotating fade
-void LedRing::animateRing(CRGB color, uint16_t durationMs) {
-  const uint16_t frameTime = 20;        // 50 FPS
-  const uint16_t frames = durationMs / frameTime;
+void LedRing::clear() {
+    _strip.clear();
+    _strip.show();
+}
 
-  for (uint16_t f = 0; f < frames; f++) {
-    FastLED.clear();
+void LedRing::show() {
+    _strip.show();
+}
 
-    // Center LED steady
-    leds[CENTER_LED] = color;
+void LedRing::setAll(uint8_t r, uint8_t g, uint8_t b) {
+    setAll(_strip.Color(r, g, b));
+}
 
-    // Rotating ring animation
-    uint8_t pos = f % (NUM_LEDS - 1);
-
-    for (uint8_t i = 1; i < NUM_LEDS; i++) {
-      uint8_t distance = (i + (NUM_LEDS - 1) - pos) % (NUM_LEDS - 1);
-      uint8_t brightness = max(0, 255 - distance * 60);
-
-      leds[i] = color;
-      leds[i].nscale8(brightness);
+void LedRing::setAll(uint32_t color) {
+    for (uint16_t i = 0; i < _ledCount; i++) {
+        _strip.setPixelColor(i, color);
     }
-
-    FastLED.show();
-    delay(frameTime);
-  }
+    _strip.show();
 }
 
-void LedRing::showColor(CRGB c) {
-  animateRing(c, 1000);
+uint32_t LedRing::color(uint8_t r, uint8_t g, uint8_t b) {
+    return _strip.Color(r, g, b);
 }
 
-// Countdown sequence
-void LedRing::countdown() {
-  showColor(CRGB::Red);
-  showColor(CRGB::Yellow);
-  showColor(CRGB::Green);
+// 🚦 Traffic light colors
+void LedRing::red() {
+    setAll(255, 0, 0);
+}
+
+void LedRing::yellow() {
+    setAll(255, 50, 0); // warm yellow (better than pure 255,255,0)
+}
+
+void LedRing::green() {
+    setAll(0, 255, 0);
+}
+
+// 🚦 Traffic light animation
+void LedRing::animateTrafficLight() {
+    red();
+    delay(1000);
+
+    yellow();
+    delay(1000);
+
+    green();
+    delay(1000);
 }
