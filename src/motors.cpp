@@ -35,14 +35,9 @@ void Motors::begin() {
     Serial.print("): ");
     Serial.println(attachB ? "OK" : "FAIL");
 
-    // Test: set 50% duty cycle directly
-    ledcWrite(_pwmA, 128);
-    ledcWrite(_pwmB, 128);
-    Serial.println("PWM set to 50% on both channels");
-
-    // ensure stopped
-    // setMotorA(0);
-    // setMotorB(0);
+    // Zatrzymaj silniki na start
+    setMotorA(0);
+    setMotorB(0);
 }
 
 void Motors::applyMotor(int16_t pwm, uint8_t pwmPin, uint8_t pin1, uint8_t pin2) {

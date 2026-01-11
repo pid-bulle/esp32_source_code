@@ -3,6 +3,8 @@
 
 #include <WebServer.h>
 #include <ESP32Servo.h>
+#include "motors.h"
+#include "speaker.h"
 
 class WebServerController {
 public:
@@ -14,6 +16,8 @@ public:
   // Reference to LED state for control
   void setLedStatePtr(bool* ledStatePtr, int ledPin);
   void setServoConfig(int servoPin, int forwardAngle, int playersAngle);
+  void setMotorsPtr(Motors* motorsPtr);
+  void setSpeakerPtr(Speaker* speakerPtr);
 
 private:
   WebServer server;
@@ -23,6 +27,9 @@ private:
   int SERVO_PIN;
   int lookingForwardAngle;
   int lookingAtPlayersAngle;
+  Motors* motors;
+  Speaker* speaker;
+  uint16_t currentSpeed;
 
   void onLookForward();
   void onLookPlayers();

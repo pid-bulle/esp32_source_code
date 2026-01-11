@@ -62,6 +62,8 @@ void setup() {
   // Setup HTTP server
   webServer.setLedStatePtr(&ledState, LED_PIN);
   webServer.setServoConfig(SERVO_PIN, LOOKING_FORWARD_ANGLE, LOOKING_AT_PLAYERS_ANGLE);
+  webServer.setMotorsPtr(&motors);
+  webServer.setSpeakerPtr(&speaker);
   webServer.setupRoutes();
   webServer.begin();
 
