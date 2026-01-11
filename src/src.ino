@@ -1,6 +1,7 @@
 #include <WiFi.h>
 #include "WebServerController.h"
 #include "speaker.h"
+#include "motors.h"
 
 // WiFi credentials
 const char* ssid = "robot7";     // Replace with your WiFi SSID
@@ -15,13 +16,21 @@ bool ledState = LOW;
 unsigned long previousMillis = 0;
 const unsigned long interval = 500; // toggle every 500 ms -> 1 Hz blink
 
+Motors motors(
+    18, 21, 19,   // pwmA, Ain1, Ain2
+    23, 1, 22,    // pwmB, Bin1, Bin2
+    2             // STBY
+);
+
+
 Speaker speaker(4);  // speaker on GPIO 4
 
 void setup() {
   // Initialize speaker
   speaker.begin();
   speaker.soundGo();
-  delay(1000);
+  digitalWrite(4, 0);;
+  speaker.detach();
 
   Serial.begin(115200);
   Serial.println("ESP32 ready — LED on GPIO15, speaker on GPIO4");
@@ -50,6 +59,8 @@ void setup() {
   webServer.setupRoutes();
   webServer.begin();
 
+  motors.begin();
+  motors.setWheelDistance(0.18);
 
 
 }
@@ -66,4 +77,19 @@ void loop() {
     ledState = !ledState;
     digitalWrite(LED_PIN, ledState);
   }
+
+      motors.drive(0.5, INFINITY);
+    delay(2000);
+
+    // Turn right, radius 0.3 m
+    motors.drive(0.3, 0.3);
+    delay(2000);
+
+    // Turn left, radius -0.2 m
+    motors.drive(0.3, -0.2);
+    delay(2000);
+
+    // Stop
+    motors.stop();
+    delay(1000);
 }

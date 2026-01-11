@@ -92,3 +92,11 @@ void Speaker::soundWin() {
 void Speaker::soundLoss() {
   playMelody(lossMelody, sizeof(lossMelody) / sizeof(int), 90);
 }
+
+void Speaker::detach() {
+  // Ensure speaker is silent
+  ledcWrite(_pin, 0);
+
+  // Release PWM hardware from the pin
+  ledcDetach(_pin);
+}
