@@ -83,12 +83,9 @@ void WebServerController::handleLed(uint16_t value) {
   server.send(200, "text/plain", response);
 }
 
-void WebServerController::handleSpeed(uint16_t value) {
-  currentSpeed = value;  // zapamiętaj bieżącą prędkość
+void WebServerController::handleSpeed(int16_t value) {
   if (motors != nullptr) {
-    // value 0-255, jedź prosto (INFINITY = brak skrętu)
-    float speed = value / 255.0;  // normalizuj do 0.0-1.0
-    motors->drive(speed, INFINITY);
+    motors->setSpeed(value);
   }
   String response = "Speed value set to: ";
   response += value;
@@ -96,25 +93,21 @@ void WebServerController::handleSpeed(uint16_t value) {
 }
 
 void WebServerController::handleTurn(uint16_t value) {
-  if (motors != nullptr) {
-    // value 0 = ostry skręt w lewo, 128 = prosto, 255 = ostry skręt w prawo
-    // Używamy currentSpeed jako prędkości bazowej
-    // value < 128: lewy wolniej, prawy szybciej (skręt w lewo)
-    // value > 128: lewy szybciej, prawy wolniej (skręt w prawo)
+  // if (motors != nullptr) {
 
-    int16_t diff = (int16_t)value - 128;  // -128 do +127
+  //   int16_t diff = (int16_t)value - 128;  // -128 do +127
 
-    // Skaluj diff proporcjonalnie do currentSpeed
-    int16_t leftSpeed = currentSpeed + diff;
-    int16_t rightSpeed = currentSpeed - diff;
+  //   // Skaluj diff proporcjonalnie do currentSpeed
+  //   int16_t leftSpeed = currentSpeed + diff;
+  //   int16_t rightSpeed = currentSpeed - diff;
 
-    // Ogranicz do zakresu -255 do 255
-    leftSpeed = constrain(leftSpeed, -255, 255);
-    rightSpeed = constrain(rightSpeed, -255, 255);
+  //   // Ogranicz do zakresu -255 do 255
+  //   leftSpeed = constrain(leftSpeed, -255, 255);
+  //   rightSpeed = constrain(rightSpeed, -255, 255);
 
-    motors->setMotorA(leftSpeed);
-    motors->setMotorB(rightSpeed);
-  }
+  //   motors->setMotorA(leftSpeed);
+  //   motors->setMotorB(rightSpeed);
+  // }
   String response = "Turn value set to: ";
   response += value;
   server.send(200, "text/plain", response);

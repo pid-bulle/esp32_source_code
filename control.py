@@ -8,7 +8,7 @@ import pygame
 import sys
 
 # Konfiguracja
-IP = "10.42.0.232"
+IP = "10.20.7.157"
 
 
 def cmd(endpoint, value=None):
