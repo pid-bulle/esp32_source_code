@@ -1,5 +1,6 @@
 #include "WebServerController.h"
 #include <Arduino.h>
+#include "led_ring.h"
 
 WebServerController::WebServerController() : server(80), ledState(nullptr), LED_PIN(0), SERVO_PIN(5), lookingForwardAngle(0), lookingAtPlayersAngle(180), speaker(nullptr), gameFinished(nullptr), currentSpeed(0) {}
 
@@ -81,6 +82,21 @@ void WebServerController::onReset() {
 }
 
 void WebServerController::handleLed(uint16_t value) {
+  switch (value) {
+    case 1:
+      LedRing::green();
+      break;
+    case 2:
+      LedRing::yellow();
+      break;
+    case 3:
+      LedRing::red();
+      break;
+    default:
+      LedRing::setColor(0, 0, 0);
+      break;
+  }
+  LedRing::applyAll();
   String response = "LED value set to: ";
   response += value;
   server.send(200, "text/plain", response);

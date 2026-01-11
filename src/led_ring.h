@@ -10,24 +10,33 @@ public:
 
     void begin();
     void clear();
-    void show();
 
-    // Generic color control
-    void setAll(uint8_t r, uint8_t g, uint8_t b);
-    void setAll(uint32_t color);
-    uint32_t color(uint8_t r, uint8_t g, uint8_t b);
+    // ---- GLOBAL CONTROL (no object needed) ----
+    static void setColor(uint8_t r, uint8_t g, uint8_t b);
+    static void setBrightness(uint8_t brightness);
 
-    // Traffic light colors
-    void red();
-    void yellow();
-    void green();
+    static void red();
+    static void yellow();
+    static void green();
 
-    // Traffic light animation
-    void animateTrafficLight();
+    static void applyAll();
+    static void animateTrafficLight();
 
 private:
     uint16_t _ledCount;
     Adafruit_NeoPixel _strip;
+
+    void apply(); // apply static state to THIS instance
+
+    // ---- Global shared state ----
+    static uint8_t _r;
+    static uint8_t _g;
+    static uint8_t _b;
+    static uint8_t _brightness;
+
+    // ---- Instance registry ----
+    static LedRing* _instances[4];   // supports up to 4 rings
+    static uint8_t _instanceCount;
 };
 
-#endif // LED_RING_H
+#endif
