@@ -110,8 +110,10 @@ void loop() {
       buttonState = reading;
       bool buttonPressed = (buttonState == HIGH);
       if(buttonPressed) {
-        speaker.soundWin();
         gameFinished = true;
+        Motors::setSpeed(0);
+        Motors::update();
+        speaker.soundWin();
       }
     }
   }
