@@ -18,8 +18,8 @@ const unsigned long interval = 500; // toggle every 500 ms -> 1 Hz blink
 
 
 const int SERVO_PIN = 5;
-const int LOOKING_FORWARD_ANGLE = 0;
-const int LOOKING_AT_PLAYERS_ANGLE = 180;
+const int LOOKING_FORWARD_ANGLE = 180;
+const int LOOKING_AT_PLAYERS_ANGLE = 0;
 
 Motors motors(
     18, 21, 19,   // pwmA, Ain1, Ain2
