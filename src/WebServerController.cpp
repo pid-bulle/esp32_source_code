@@ -88,6 +88,7 @@ void WebServerController::handleLed(uint16_t value) {
 
 void WebServerController::handleSpeed(int16_t value) {
   Motors::setSpeed(value);
+  Motors::update();
   String response = "Speed value set to: ";
   response += value;
   server.send(200, "text/plain", response);
