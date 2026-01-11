@@ -77,7 +77,7 @@ void setup() {
 
   // Initialize LED ring
   ledRing.begin();
-  // ledRing.startCountdown();
+  ledRing.countdown();
 }
 
 void loop() {
